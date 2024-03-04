@@ -11,13 +11,14 @@ import java.util.List;
  *
  * @author dlope
  */
-public class Inventory {
+public class manageInventory {
     private int largeRooms;
     private int mediumRooms;
     private int smallRooms;
     private List<Room> rooms;
+    
 
-    public Inventory(int largeRooms, int mediumRooms, int smallRooms) {
+    public manageInventory(int largeRooms, int mediumRooms, int smallRooms) {
         this.largeRooms = largeRooms;
         this.mediumRooms = mediumRooms;
         this.smallRooms = smallRooms;
@@ -42,7 +43,7 @@ public class Inventory {
         return generatedRooms;
     }
     
-    public List<Room> getAvailableRooms() {
+    public List<Room> listAvailableRooms() {
         List<Room> availableRooms = new ArrayList<>();
 
         for (Room room : rooms) {
@@ -53,7 +54,7 @@ public class Inventory {
         return availableRooms;
     }
 
-    public List<Room> getUnavailableRooms() {
+    public List<Room> listUnavailableRooms() {
         List<Room> unavailableRooms = new ArrayList<>();
 
         for (Room room : rooms) {
@@ -63,14 +64,17 @@ public class Inventory {
         }
         return unavailableRooms;
     }
+    
+    public List<Room> listUnavailableRoomsPerMaintenance() {
+        List<Room> unavailableRooms = new ArrayList<>();
 
-    public void modifyRoomStatus(String type, int roomNo, boolean newStatus) {
         for (Room room : rooms) {
-            if (room.getType().equals(type) && room.getRoomNo() == roomNo) {
-                room.setStatus(newStatus);
-                return;
+            if (room.isMaintenance()) {
+                unavailableRooms.add(room);
             }
         }
-        System.out.println("Habitación " + type + roomNo + " no encontrada");
+        return unavailableRooms;
     }
+    
+    
 }

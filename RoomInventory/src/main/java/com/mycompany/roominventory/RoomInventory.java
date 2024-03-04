@@ -15,9 +15,11 @@ public class RoomInventory {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
+        Room rm = new Room();
+        
         
         System.out.print("Ingrese el número de habitaciones grandes: ");
-            int largeRooms = scanner.nextInt();
+        int largeRooms = scanner.nextInt();
 
         System.out.print("Ingrese el número de habitaciones medianas: ");
         int mediumRooms = scanner.nextInt();
@@ -25,12 +27,13 @@ public class RoomInventory {
         System.out.print("Ingrese el número de habitaciones pequeñas: ");
         int smallRooms = scanner.nextInt();
         
-        Inventory inventory = new Inventory(largeRooms, mediumRooms, smallRooms);
+        manageInventory inventory = new manageInventory(largeRooms, mediumRooms, smallRooms);
         
         while (!exit){
             
-            List<Room> availableRooms = inventory.getAvailableRooms();
-            List<Room> unavailableRooms = inventory.getUnavailableRooms();
+            List<Room> availableRooms = inventory.listAvailableRooms();
+            List<Room> unavailableRooms = inventory.listUnavailableRooms();
+            List<Room> unavailableRoomsm = inventory.listUnavailableRoomsPerMaintenance();
         
             System.out.println("Habitaciones Disponibles:");
             for (Room room : availableRooms) {
@@ -39,6 +42,11 @@ public class RoomInventory {
         
             System.out.println("Habitaciones Ocupadas:");
             for (Room room : unavailableRooms) {
+                System.out.println(room.toString());
+            }
+            
+            System.out.println("Habitaciones Ocupadas por mantenimiento:");
+            for (Room room : unavailableRoomsm) {
                 System.out.println(room.toString());
             }
             
@@ -54,8 +62,15 @@ public class RoomInventory {
                 
                 System.out.print("¿La habitación está disponible? (true/false): ");
                 boolean newStatus = scanner.nextBoolean();
+                boolean maintenance = false;
                 
-                inventory.modifyRoomStatus(roomType, roomNumber, newStatus);
+                if (newStatus == false){
+                    System.out.print("¿La habitación está en mantenimiento? (true) \n");                    
+                     maintenance = scanner.nextBoolean();
+                }
+                
+                
+                rm.modifyRoomStatus(availableRooms, roomType, roomNumber, newStatus, maintenance);
             }
             
             System.out.print("¿Desea salir? (si/no): ");
